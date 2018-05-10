@@ -1,4 +1,4 @@
-package net.geozen.pdf;
+package net.geozen.pdf.enums;
 
 public enum Sex {
 	Male("男"), Female("女");
