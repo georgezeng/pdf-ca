@@ -1,2 +1,2 @@
-docker rm pdf-ca --force
-docker run -d --name pdf-ca pdf-ca
+sudo docker rm pdf-ca --force
+sudo docker run -d --name pdf-ca pdf-ca
