@@ -139,7 +139,7 @@ public class PdfController {
 		String filename = sdf.format(new Date()) + ".pdf";
 		doc.save(this.filePath + filename);
 
-		response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+//		response.addHeader("Content-Disposition", "attachment;filename=" + filename);
 		in = new FileInputStream(this.filePath + filename);
 		OutputStream out = response.getOutputStream();
 		c = -1;
