@@ -71,7 +71,7 @@ public class PdfController {
 				data.setPinyin(row.getCell(1).getStringCellValue());
 				data.setSex(row.getCell(3).getStringCellValue());
 				data.setBirthday(row.getCell(4).getStringCellValue());
-				data.setGrade((int) row.getCell(6).getNumericCellValue());
+				data.setGrade(row.getCell(6).getStringCellValue());
 				data.setNation(row.getCell(7).getStringCellValue());
 				data.setNationality(row.getCell(9).getStringCellValue());
 				list.add(data);

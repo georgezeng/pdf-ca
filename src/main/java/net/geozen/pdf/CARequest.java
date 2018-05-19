@@ -7,7 +7,7 @@ public class CARequest {
 	private String sex;
 	private String birthday;
 	private String specialty;
-	private int grade;
+	private String grade;
 	private String nation;
 	private String score;
 	private String nationality;
@@ -65,11 +65,11 @@ public class CARequest {
 		this.specialty = specialty;
 	}
 
-	public int getGrade() {
+	public String getGrade() {
 		return grade;
 	}
 
-	public void setGrade(int grade) {
+	public void setGrade(String grade) {
 		this.grade = grade;
 	}
 
