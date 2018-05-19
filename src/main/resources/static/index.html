@@ -1,8 +1,16 @@
 <html>
+<head>
+<meta charset="UTF-8">
+</head>
 <body>
 	<form action="/generate" target="_pdf" method="post" enctype="multipart/form-data">
 		<input name="file" type="file" />
+		<select name="type">
+			<option value="generate">生成</option>
+			<option value="preview">预览</option>
+		</select>
 		<input type="submit" />
 	</form>
+	
 </body>
 </html>

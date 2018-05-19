@@ -54,7 +54,8 @@ public class PdfController {
 	private int count;
 
 	@RequestMapping(value = "/generate")
-	public String generatePDF(@RequestParam("file") MultipartFile file, HttpServletResponse response) throws Exception {
+	public String generatePDF(@RequestParam("file") MultipartFile file, @RequestParam("type") String type, HttpServletResponse response)
+			throws Exception {
 		HSSFWorkbook wb = new HSSFWorkbook(file.getInputStream());
 		HSSFSheet sheet = wb.getSheetAt(0);
 		int rows = sheet.getPhysicalNumberOfRows();
@@ -79,14 +80,17 @@ public class PdfController {
 		wb.close();
 
 		PDDocument doc = new PDDocument();
-		InputStream in = getClass().getResourceAsStream("/ca.jpeg");
-		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		int c = -1;
-		while ((c = in.read()) != -1) {
-			os.write(c);
+		PDImageXObject pdImage = null;
+		if (type.equals("preview")) {
+			InputStream in = getClass().getResourceAsStream("/ca.jpeg");
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			int c = -1;
+			while ((c = in.read()) != -1) {
+				os.write(c);
+			}
+			in.close();
+			pdImage = PDImageXObject.createFromByteArray(doc, os.toByteArray(), "ca");
 		}
-		in.close();
-		PDImageXObject pdImage = PDImageXObject.createFromByteArray(doc, os.toByteArray(), "ca");
 		float widthScale = new BigDecimal("0.36").floatValue();
 		float heightScale = new BigDecimal("0.37").floatValue();
 		float fontSize = new BigDecimal("12").floatValue();
@@ -98,7 +102,9 @@ public class PdfController {
 			PDPage page = new PDPage(PDRectangle.A4);
 			doc.addPage(page);
 			PDPageContentStream contents = new PDPageContentStream(doc, page, AppendMode.APPEND, true, true);
-			contents.drawImage(pdImage, 0, 0, pdImage.getWidth() * widthScale, pdImage.getHeight() * heightScale);
+			if (pdImage != null) {
+				contents.drawImage(pdImage, 0, 0, pdImage.getWidth() * widthScale, pdImage.getHeight() * heightScale);
+			}
 			writeFont(contents, data.getName(), font, fontSize, 385, 527);
 			writeFont(contents, data.getPinyin(), font, fontSize, 385, 501);
 			Sex sex = Sex.textOf(data.getSex());
@@ -139,10 +145,10 @@ public class PdfController {
 		String filename = sdf.format(new Date()) + ".pdf";
 		doc.save(this.filePath + filename);
 
-//		response.addHeader("Content-Disposition", "attachment;filename=" + filename);
-		in = new FileInputStream(this.filePath + filename);
+		// response.addHeader("Content-Disposition", "attachment;filename=" + filename);
+		InputStream in = new FileInputStream(this.filePath + filename);
 		OutputStream out = response.getOutputStream();
-		c = -1;
+		int c = -1;
 		while ((c = in.read()) != -1) {
 			out.write(c);
 		}
