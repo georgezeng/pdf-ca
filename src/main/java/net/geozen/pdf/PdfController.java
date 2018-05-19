@@ -110,7 +110,7 @@ public class PdfController {
 			Sex sex = Sex.textOf(data.getSex());
 			if (sex != null) {
 				writeFont(contents, sex.getText(), font, fontSize, 385, 484);
-				writeFont(contents, sex.name(), font, fontSize, 385, 442);
+				writeFont(contents, sex.name(), font, fontSize, 385, 458);
 			}
 			Nationality gj = Nationality.textOf(data.getNationality());
 			writeFont(contents, gj.getText(), font, fontSize, 385, 439);
@@ -127,7 +127,7 @@ public class PdfController {
 			Grade grade = Grade.levelOf(Integer.valueOf(data.getGrade()));
 			if (grade != null) {
 				writeFont(contents, grade.getText(), font, fontSize, 385, 247);
-				writeFont(contents, grade.getLevel() + "", font, fontSize, 410, 2240);
+				writeFont(contents, grade.getLevel() + "", font, fontSize, 410, 224);
 			}
 			String code = null;
 			synchronized (this) {
@@ -139,7 +139,7 @@ public class PdfController {
 			writeFont(contents, "1-12", font, fontSize, 240, 282);
 			String date = sdf.format(new Date());
 			writeFont(contents, date, font, fontSize, 160, 262);
-			writeFont(contents, date, font, fontSize, 200, 241);
+			writeFont(contents, date, font, fontSize, 200, 243);
 			contents.close();
 		}
 		String filename = sdf.format(new Date()) + ".pdf";
