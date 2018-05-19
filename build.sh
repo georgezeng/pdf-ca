@@ -1,4 +1,4 @@
-mkdir app
+mkdir ~/app
 if [ ! -d "pdf-ca" ]; then
   sudo docker run --rm -it -v ~/app/pdf-ca:/git alpine/git clone https://github.com/georgezeng/pdf-ca.git
 else
