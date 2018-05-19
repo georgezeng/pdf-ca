@@ -105,29 +105,29 @@ public class PdfController {
 			if (pdImage != null) {
 				contents.drawImage(pdImage, 0, 0, pdImage.getWidth() * widthScale, pdImage.getHeight() * heightScale);
 			}
-			writeFont(contents, data.getName(), font, fontSize, 385, 532);
-			writeFont(contents, data.getPinyin(), font, fontSize, 385, 506);
+			writeFont(contents, data.getName(), font, fontSize, 385, 535);
+			writeFont(contents, data.getPinyin(), font, fontSize, 385, 509);
 			Sex sex = Sex.textOf(data.getSex());
 			if (sex != null) {
-				writeFont(contents, sex.getText(), font, fontSize, 385, 481);
-				writeFont(contents, sex.name(), font, fontSize, 385, 458);
+				writeFont(contents, sex.getText(), font, fontSize, 385, 484);
+				writeFont(contents, sex.name(), font, fontSize, 385, 442);
 			}
 			Nationality gj = Nationality.textOf(data.getNationality());
-			writeFont(contents, gj.getText(), font, fontSize, 385, 435);
-			writeFont(contents, gj.name(), font, fontSize, 430, 408);
+			writeFont(contents, gj.getText(), font, fontSize, 385, 439);
+			writeFont(contents, gj.name(), font, fontSize, 430, 412);
 			Nation nation = Nation.textOf(data.getNation());
 			if (nation != null) {
-				writeFont(contents, nation.getText(), font, fontSize, 385, 385);
-				writeFont(contents, nation.name(), font, fontSize, 385, 362);
+				writeFont(contents, nation.getText(), font, fontSize, 385, 389);
+				writeFont(contents, nation.name(), font, fontSize, 385, 366);
 			}
-			writeFont(contents, data.getBirthday(), font, fontSize, 385, 338);
-			writeFont(contents, data.getBirthday(), font, fontSize, 435, 317);
-			writeFont(contents, "国际标准舞", font, fontSize, 385, 289);
-			writeFont(contents, "Ballroom Dance/DanceSport", font, fontSize, 410, 266);
+			writeFont(contents, data.getBirthday(), font, fontSize, 385, 342);
+			writeFont(contents, data.getBirthday(), font, fontSize, 435, 321);
+			writeFont(contents, "国际标准舞", font, fontSize, 385, 293);
+			writeFont(contents, "Ballroom Dance/DanceSport", font, fontSize, 410, 270);
 			Grade grade = Grade.levelOf(Integer.valueOf(data.getGrade()));
 			if (grade != null) {
-				writeFont(contents, grade.getText(), font, fontSize, 385, 243);
-				writeFont(contents, grade.getLevel() + "", font, fontSize, 410, 220);
+				writeFont(contents, grade.getText(), font, fontSize, 385, 247);
+				writeFont(contents, grade.getLevel() + "", font, fontSize, 410, 2240);
 			}
 			String code = null;
 			synchronized (this) {
@@ -135,11 +135,11 @@ public class PdfController {
 			}
 			writeFont(contents, code, font, fontSize, 160, 341);
 			writeFont(contents, code, font, fontSize, 135, 315);
-			writeFont(contents, "1-12", font, fontSize, 160, 300);
-			writeFont(contents, "1-12", font, fontSize, 240, 278);
+			writeFont(contents, "1-12", font, fontSize, 160, 302);
+			writeFont(contents, "1-12", font, fontSize, 240, 282);
 			String date = sdf.format(new Date());
-			writeFont(contents, date, font, fontSize, 160, 257);
-			writeFont(contents, date, font, fontSize, 200, 236);
+			writeFont(contents, date, font, fontSize, 160, 262);
+			writeFont(contents, date, font, fontSize, 200, 241);
 			contents.close();
 		}
 		String filename = sdf.format(new Date()) + ".pdf";
