@@ -35,7 +35,7 @@ public class PDFTest {
 		data.setNationality("中国");
 		data.setNation("汉族");
 		data.setBirthday("1983-12");
-		data.setGrade(3);
+		data.setGrade("3");
 
 		PDDocument doc = new PDDocument();
 		InputStream in = getClass().getResourceAsStream("/ca.jpeg");
