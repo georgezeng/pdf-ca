@@ -7,4 +7,4 @@ else
 fi
 sudo docker run --rm -it -v ~/.m2:/root/.m2 -v ~/app/pdf-ca:/usr/src/maven -w /usr/src/maven maven mvn clean verify
 cd ~/app/pdf-ca
-sudo docker build -t pdf-ca --no-cache
+sudo docker build -t pdf-ca --no-cache .
