@@ -16,6 +16,15 @@ public class CARequest {
 	private String address;
 	private String zipcode;
 	private String remark;
+	private byte[] photo;
+
+	public byte[] getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
+	}
 
 	public String getName() {
 		return name;

@@ -4,7 +4,8 @@
 </head>
 <body>
 	<form action="/generate" target="_pdf" method="post" enctype="multipart/form-data">
-		<input name="file" type="file" />
+		表格: <input name="file" type="file" />
+		照片压缩包: <input name="photos" type="file" />
 		<select name="type">
 			<option value="generate">生成</option>
 			<option value="preview">预览</option>

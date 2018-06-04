@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -26,6 +28,7 @@ import net.geozen.pdf.enums.Nationality;
 import net.geozen.pdf.enums.Sex;
 
 public class PDFTest {
+	
 	@Test
 	public void test() throws Exception {
 		CARequest data = new CARequest();
@@ -36,7 +39,7 @@ public class PDFTest {
 		data.setNation("汉族");
 		data.setBirthday("1983-12");
 		data.setGrade("3");
-
+		
 		PDDocument doc = new PDDocument();
 		InputStream in = getClass().getResourceAsStream("/ca.jpeg");
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -46,8 +49,21 @@ public class PDFTest {
 		}
 		in.close();
 		PDImageXObject pdImage = PDImageXObject.createFromByteArray(doc, out.toByteArray(), "ca");
+		
+		ZipFile file = new ZipFile("test.zip");
+		ZipEntry entry = file.stream().filter(it -> {System.out.println(it.getName());return it.getName().equals("打印证书测试照片/1_张三.jpg");}).findFirst().get();
+		in = file.getInputStream(entry);
+		out = new ByteArrayOutputStream();
+		c = -1;
+		while ((c = in.read()) != -1) {
+			out.write(c);
+		}
+		in.close();
+		file.close();
+		PDImageXObject headerImage = PDImageXObject.createFromByteArray(doc, out.toByteArray(), "ca");
+		
 		float widthScale = new BigDecimal("0.36").floatValue();
-		float heightScale = new BigDecimal("0.37").floatValue();
+		float heightScale = new BigDecimal("0.3775").floatValue();
 		float fontSize = new BigDecimal("12").floatValue();
 		PDFont font = PDType0Font.load(doc, getClass().getResourceAsStream("/ms_song.ttf"));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -57,38 +73,39 @@ public class PDFTest {
 		doc.addPage(page);
 		PDPageContentStream contents = new PDPageContentStream(doc, page, AppendMode.APPEND, true, true);
 		contents.drawImage(pdImage, 0, 0, pdImage.getWidth() * widthScale, pdImage.getHeight() * heightScale);
-		writeFont(contents, data.getName(), font, fontSize, 385, 532);
-		writeFont(contents, data.getPinyin(), font, fontSize, 385, 506);
+		contents.drawImage(headerImage, 100, 390, headerImage.getWidth(), headerImage.getHeight());
+		writeFont(contents, data.getName(), font, fontSize, 385, 538);
+		writeFont(contents, data.getPinyin(), font, fontSize, 385, 512);
 		Sex sex = Sex.textOf(data.getSex());
 		if (sex != null) {
-			writeFont(contents, sex.getText(), font, fontSize, 385, 481);
-			writeFont(contents, sex.name(), font, fontSize, 385, 458);
+			writeFont(contents, sex.getText(), font, fontSize, 385, 486);
+			writeFont(contents, sex.name(), font, fontSize, 385, 462);
 		}
 		Nationality gj = Nationality.textOf(data.getNationality());
-		writeFont(contents, gj.getText(), font, fontSize, 385, 435);
-		writeFont(contents, gj.name(), font, fontSize, 430, 408);
+		writeFont(contents, gj.getText(), font, fontSize, 385, 443);
+		writeFont(contents, gj.name(), font, fontSize, 430, 416);
 		Nation nation = Nation.textOf(data.getNation());
 		if (nation != null) {
-			writeFont(contents, nation.getText(), font, fontSize, 385, 385);
-			writeFont(contents, nation.name(), font, fontSize, 385, 362);
+			writeFont(contents, nation.getText(), font, fontSize, 385, 389);
+			writeFont(contents, nation.name(), font, fontSize, 385, 366);
 		}
-		writeFont(contents, data.getBirthday(), font, fontSize, 385, 338);
-		writeFont(contents, data.getBirthday(), font, fontSize, 435, 317);
-		writeFont(contents, "国际标准舞", font, fontSize, 385, 289);
-		writeFont(contents, "Ballroom Dance/DanceSport", font, fontSize, 410, 266);
+		writeFont(contents, data.getBirthday(), font, fontSize, 385, 345);
+		writeFont(contents, data.getBirthday(), font, fontSize, 435, 321);
+		writeFont(contents, "国际标准舞", font, fontSize, 385, 293);
+		writeFont(contents, "Ballroom Dance/DanceSport", font, fontSize, 410, 270);
 		Grade grade = Grade.levelOf(Integer.valueOf(data.getGrade()));
 		if (grade != null) {
-			writeFont(contents, grade.getText(), font, fontSize, 385, 243);
-			writeFont(contents, grade.getLevel() + "", font, fontSize, 410, 220);
+			writeFont(contents, grade.getText(), font, fontSize, 385, 249);
+			writeFont(contents, grade.getLevel() + "", font, fontSize, 410, 228);
 		}
 		String code = "077" + sdf2.format(new Date()) + df.format(1);
 		writeFont(contents, code, font, fontSize, 160, 341);
 		writeFont(contents, code, font, fontSize, 135, 315);
-		writeFont(contents, "1-12", font, fontSize, 160, 300);
-		writeFont(contents, "1-12", font, fontSize, 240, 278);
+		writeFont(contents, "1-12", font, fontSize, 160, 302);
+		writeFont(contents, "1-12", font, fontSize, 240, 282);
 		String date = sdf.format(new Date());
-		writeFont(contents, date, font, fontSize, 160, 257);
-		writeFont(contents, date, font, fontSize, 200, 236);
+		writeFont(contents, date, font, fontSize, 160, 268);
+		writeFont(contents, date, font, fontSize, 200, 243);
 		contents.close();
 		doc.save("test.pdf");
 	}
