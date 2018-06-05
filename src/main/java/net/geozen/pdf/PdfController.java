@@ -62,9 +62,13 @@ public class PdfController {
 		HSSFSheet sheet = wb.getSheetAt(0);
 		int rows = sheet.getPhysicalNumberOfRows();
 		List<CARequest> list = new ArrayList<CARequest>();
-		ZipInputStream zip = new ZipInputStream(photos.getInputStream());
-		ZipEntry entry = zip.getNextEntry();
-		zip.closeEntry();
+		ZipInputStream zip = null;
+		ZipEntry entry = null;
+		if (photos != null) {
+			zip = new ZipInputStream(photos.getInputStream());
+			entry = zip.getNextEntry();
+			zip.closeEntry();
+		}
 		for (int r = 1; r < rows; r++) {
 			HSSFRow row = sheet.getRow(r);
 			if (row == null) {
