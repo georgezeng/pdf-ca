@@ -272,7 +272,7 @@ public class PdfController {
 			writeFont(contents, "1-12", font, fontSize, 160, 302);
 			writeFont(contents, "1-12", font, fontSize, 240, 282);
 			String date = sdf.format(new Date());
-			writeFont(contents, date, font, fontSize, 160, 268);
+			writeFont(contents, date, font, fontSize, 160, 262);
 			writeFont(contents, date, font, fontSize, 200, 243);
 			contents.close();
 		}
