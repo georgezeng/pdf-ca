@@ -189,10 +189,10 @@ public class PdfController {
 		out.close();
 		return null;
 	}
-	
+
 	@RequestMapping(value = "/generateWithoutPhoto")
-	public String generatePDFWithoutPhoto(@RequestParam("file") MultipartFile file,
-			@RequestParam("type") String type, HttpServletResponse response) throws Exception {
+	public String generatePDFWithoutPhoto(@RequestParam("file") MultipartFile file, @RequestParam("type") String type, HttpServletResponse response)
+			throws Exception {
 		HSSFWorkbook wb = new HSSFWorkbook(file.getInputStream());
 		HSSFSheet sheet = wb.getSheetAt(0);
 		int rows = sheet.getPhysicalNumberOfRows();
@@ -217,7 +217,6 @@ public class PdfController {
 		wb.close();
 
 		PDDocument doc = new PDDocument();
-		PDImageXObject pdImage = null;
 		if (type.equals("preview")) {
 			InputStream in = getClass().getResourceAsStream("/ca.jpeg");
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -230,10 +229,7 @@ public class PdfController {
 				}
 			} while (len > -1);
 			in.close();
-			pdImage = PDImageXObject.createFromByteArray(doc, os.toByteArray(), "ca");
 		}
-		float widthScale = new BigDecimal("0.36").floatValue();
-		float heightScale = new BigDecimal("0.3775").floatValue();
 		float fontSize = new BigDecimal("12").floatValue();
 		PDFont font = PDType0Font.load(doc, getClass().getResourceAsStream("/ms_song.ttf"));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -243,11 +239,6 @@ public class PdfController {
 			PDPage page = new PDPage(PDRectangle.A4);
 			doc.addPage(page);
 			PDPageContentStream contents = new PDPageContentStream(doc, page, AppendMode.APPEND, true, true);
-			if (pdImage != null) {
-				contents.drawImage(pdImage, 0, 0, pdImage.getWidth() * widthScale, pdImage.getHeight() * heightScale);
-			}
-			PDImageXObject headerImage = PDImageXObject.createFromByteArray(doc, data.getPhoto(), "photo");
-			contents.drawImage(headerImage, 100, 390, headerImage.getWidth(), headerImage.getHeight());
 			writeFont(contents, data.getName(), font, fontSize, 385, 538);
 			writeFont(contents, data.getPinyin(), font, fontSize, 385, 512);
 			Sex sex = Sex.textOf(data.getSex());
